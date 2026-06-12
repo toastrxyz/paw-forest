@@ -1,59 +1,55 @@
-<x-layouts::auth :title="__('Log in')">
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+<?php
+//Laravel autentifikācijas sistēma un lietotāja sesija
+use function Livewire\Volt\{state};
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paw Forest - Log In</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
-
-        <x-passkey-verify />
-
-        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
-            @csrf
-
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                :label="__('Email address')"
-                :value="old('email')"
-                type="email"
-                required
-                autofocus
-                autocomplete="email"
-                placeholder="email@example.com"
-            />
-
-            <!-- Password -->
-            <div class="relative">
-                <flux:input
-                    name="password"
-                    :label="__('Password')"
-                    type="password"
-                    required
-                    autocomplete="current-password"
-                    :placeholder="__('Password')"
-                    viewable
-                />
-
-                @if (Route::has('password.request'))
-                    <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
-                        {{ __('Forgot your password?') }}
-                    </flux:link>
-                @endif
+    <header>
+        <div class="nav-inner">
+            <div class="logo-area">
+                <h2>🏠 Paw Forest</h2>
             </div>
-
-            <!-- Remember Me -->
-            <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
-
-            <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
-                    {{ __('Log in') }}
-                </flux:button>
-            </div>
-        </form>
-
-        <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600 dark:text-zinc-400">
-            <span>{{ __('Don\'t have an account?') }}</span>
-            <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
+            <nav class="pub-nav">
+                <select class="lang-select">
+                    <option value="en" selected>🌐 EN</option>
+                    <option value="lv">🌐 LV</option>
+                </select>
+            </nav>
         </div>
-    </div>
-</x-layouts::auth>
+    </header>
+
+    <main class="container auth-container">
+        <div class="block-card auth-card">
+            <h2>Log In</h2>
+            <br>
+            <form action="dashboard.html">
+                <div class="form-group">
+                    <label>Username or Email</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-blue register-btn">Sign In</button>
+            </form>
+            <br>
+            <p class="auth-switch-text">Don't have an account yet? <a href="/register">Register here</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Paw Forest</p>
+    </footer>
+
+</body>
+</html>

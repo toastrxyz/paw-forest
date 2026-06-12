@@ -1,69 +1,70 @@
-<x-layouts::auth :title="__('Register')">
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
-
-        <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
-
-        <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-6">
-            @csrf
-            <!-- Name -->
-            <flux:input
-                name="name"
-                :label="__('Name')"
-                :value="old('name')"
-                type="text"
-                required
-                autofocus
-                autocomplete="name"
-                :placeholder="__('Full name')"
-            />
-
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                :label="__('Email address')"
-                :value="old('email')"
-                type="email"
-                required
-                autocomplete="email"
-                placeholder="email@example.com"
-            />
-
-            <!-- Password -->
-            <flux:input
-                name="password"
-                :label="__('Password')"
-                type="password"
-                required
-                autocomplete="new-password"
-                :placeholder="__('Password')"
-                passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
-                viewable
-            />
-
-            <!-- Confirm Password -->
-            <flux:input
-                name="password_confirmation"
-                :label="__('Confirm password')"
-                type="password"
-                required
-                autocomplete="new-password"
-                :placeholder="__('Confirm password')"
-                passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
-                viewable
-            />
-
-            <div class="flex items-center justify-end">
-                <flux:button type="submit" variant="primary" class="w-full" data-test="register-user-button">
-                    {{ __('Create account') }}
-                </flux:button>
+<?php
+//jauno lietotāju reģistrācija un datu saglabāšana db
+use function Livewire\Volt\{state};
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paw Forest - Register</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="nav-inner">
+            <div class="logo-area">
+                <h2>🏠 Paw Forest</h2>
             </div>
-        </form>
-
-        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
-            <span>{{ __('Already have an account?') }}</span>
-            <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
+            <nav class="pub-nav">
+                <select class="lang-select">
+                    <option value="en" selected>🌐 EN</option>
+                    <option value="lv">🌐 LV</option>
+                </select>
+            </nav>
         </div>
-    </div>
-</x-layouts::auth>
+    </header>
+
+    <main class="container auth-container">
+        <div class="block-card auth-card">
+            <h2>Registration</h2>
+            <br>
+            <form action="gallery.html">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" placeholder="Street, City, Postal Code" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-green register-btn">Create Account</button>
+            </form>
+            <br>
+            <p class="auth-switch-text">Already have an account? <a href="/login">Log in here</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Paw Forest</p>
+    </footer>
+
+</body>
+</html>
