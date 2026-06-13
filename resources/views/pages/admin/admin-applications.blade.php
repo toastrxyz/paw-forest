@@ -25,6 +25,7 @@ use function Livewire\Volt\{state};
                     <li><a href="/admin/medicine">{{ __('Medications') }}</a></li>
                     
                     @if(auth()->user()->role === 'admin')
+                        <li><a href="/admin/locations">{{ __('Locations') }}</a></li>
                         <li><a href="/admin/users">{{ __('Users') }}</a></li>
                     @endif
                 </ul>

@@ -673,3 +673,26 @@ footer{
 .btn-orange:hover{
     background-color: #c45e1b;
 }
+
+.pub-nav button,
+.pub-nav .btn-nav-auth {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
+    font-size: 1.05rem;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    background-color: #b8dde8;
+    color: #4a3f3a;
+    transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.pub-nav button:hover,
+.pub-nav .btn-nav-auth:hover {
+    background-color: #a4cbd6;
+    opacity: 0.95;
+}

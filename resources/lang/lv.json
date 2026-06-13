@@ -164,5 +164,14 @@
     "e.g. johndoe": "piem. janis99",
     "Temporary pass": "Pagaidu parole",
     "e.g. john@mail.com": "piem. janis@epasts.lv",
-    "Street, City": "Iela, pilsēta"
+    "Street, City": "Iela, pilsēta",
+    "Manage Shelter Locations": "Pārvaldīt patversmes lokācijas",
+    "Location ID": "Lokācijas ID",
+    "City Name": "Pilsētas nosaukums",
+    "Specific Address": "Konkrēta adrese",
+    "Contact Phone": "Kontakttālrunis",
+    "e.g. Parka iela 12": "piem. Parka iela 12",
+    "e.g. +371 20000000": "piem. +371 20000000",
+    "Locations":"Lokācijas",
+    "Admin Panel":"Admin panelis"
 }

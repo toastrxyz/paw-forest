@@ -161,5 +161,15 @@
     "e.g. johndoe": "e.g. johndoe",
     "Temporary pass": "Temporary pass",
     "e.g. john@mail.com": "e.g. john@mail.com",
-    "Street, City": "Street, City"
+    "Street, City": "Street, City",
+    "Manage Shelter Locations": "Manage Shelter Locations",
+    "Location ID": "Location ID",
+    "City Name": "City Name",
+    "Specific Address": "Specific Address",
+    "Contact Phone": "Contact Phone",
+    "Actions": "Actions",
+    "e.g. Parka iela 12": "e.g. Parka iela 12",
+    "e.g. +371 20000000": "e.g. +371 20000000",
+    "Locations":"Locations",
+    "Admin Panel":"Admin Panel"
 }

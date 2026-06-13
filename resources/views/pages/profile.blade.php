@@ -22,18 +22,18 @@ use function Livewire\Volt\{state};
                 <a href="/gallery">{{ __('Gallery') }}</a> <span>|</span>
                 <a href="/donations">{{ __('Donate') }}</a> <span>|</span>
                 @auth
-                    <a href="/profile">Profile</a>
+                    <a href="/profile"><b>{{ __('Profile') }}</b></a>
 
                     @if(auth()->user()->isEmployee())
-                        <a href="/dashboard">Admin Panel</a>
+                        <span>|</span><a href="/dashboard">{{ __('Admin Panel') }}</a>
                     @endif
 
                     <form method="POST" action="/logout">
                         @csrf
-                        <button>Logout</button>
+                        <button type="submit">{{ __('Log out') }}</button>
                     </form>
                 @else
-                    <a href="/login">Log in</a>
+                    <a href="/login" class="btn-nav-auth">{{ __('Log in') }}</a>
                 @endauth
                 
                 <select class="lang-select" onchange="location = this.value;">

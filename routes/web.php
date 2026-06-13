@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['admin'])->group(function () {
         Route::view('/admin/donations', 'pages.admin.admin-donations');
         Route::view('/admin/users', 'pages.admin.admin-users');
+        Route::view('/admin/locations', 'pages.admin.admin-locations');
     });
 });
 
