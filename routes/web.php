@@ -8,6 +8,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::view('/admin/users', 'pages.admin.admin-users');
+    Route::view('/admin/animals', 'pages.admin.admin-animals');
+    Route::view('/admin/applications', 'pages.admin.admin-applications');
+    Route::view('/admin/donations', 'pages.admin.admin-donations');
+    Route::view('/admin/medicine', 'pages.admin.admin-medicine');
+});
+
 require __DIR__.'/settings.php';
 
 Route::view('/gallery', 'pages.gallery');
@@ -18,13 +26,7 @@ Route::view('/profile', 'pages.profile');
 Route::view('/', 'pages.index');
 Route::view('/donations', 'pages.donations');
 Route::view('/animal-profile', 'pages.animal-profile');
-
 Route::view('/dashboard', 'pages.dashboard');
-Route::view('/admin/animals', 'pages/admin/admin-animals');
-Route::view('/admin/applications', 'pages/admin/admin-applications');
-Route::view('/admin/donations', 'pages/admin/admin-donations');
-Route::view('/admin/medicine', 'pages/admin/admin-medicine');
-Route::view('/admin/users', 'pages/admin/admin-users');
 
 // valodas maiņas funkcija
 use Illuminate\Support\Facades\App;

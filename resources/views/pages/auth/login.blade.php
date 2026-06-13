@@ -30,14 +30,15 @@ use function Livewire\Volt\{state};
         <div class="block-card auth-card">
             <h1>{{ __('Log in') }}</h1>
             <br>
-            <form action="#">
+            <form method="POST" action="/login">
+                @csrf
                 <div class="form-group">
-                    <label>{{ __('Username or Email') }}</label>
-                    <input type="text" required>
+                    <label>Username or Email</label>
+                    <input name="email" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label>{{ __('Password') }}</label>
-                    <input type="password" required>
+                    <label>Password</label>
+                    <input name="password" type="password" required>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-blue register-btn">{{ __('Sign In') }}</button>

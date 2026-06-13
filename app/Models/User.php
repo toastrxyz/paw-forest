@@ -19,22 +19,21 @@ class User extends Authenticatable implements PasskeyUser
     use SoftDeletes;
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
-    /**
-     * Mass assignable fields (MATCH your DB schema)
-     */
+    protected $table = 'user';
+
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
         'username',
         'email',
         'password',
+        'role',
         'address',
         'is_blocked',
         'date_joined',
     ];
 
-    /**
-     * Hidden fields for security
-     */
     protected $hidden = [
         'password',
         'two_factor_secret',
@@ -42,9 +41,6 @@ class User extends Authenticatable implements PasskeyUser
         'remember_token',
     ];
 
-    /**
-     * Attribute casting (IMPORTANT for boolean + dates)
-     */
     protected function casts(): array
     {
         return [
@@ -55,9 +51,16 @@ class User extends Authenticatable implements PasskeyUser
         ];
     }
 
-    /**
-     * Optional helper: user initials (already useful for UI)
-     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
     public function initials(): string
     {
         return Str::of($this->name)
@@ -67,9 +70,6 @@ class User extends Authenticatable implements PasskeyUser
             ->implode('');
     }
 
-    /**
-     * Optional: default values when creating a user
-     */
     protected static function booted(): void
     {
         static::creating(function ($user) {

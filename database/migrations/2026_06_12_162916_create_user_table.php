@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('username', 50)->unique();
             $table->string('password', 255);
+            $table->string('role')->default('user');
             $table->boolean('is_blocked')->default(false);
             $table->string('email')->unique();
             $table->string('address')->nullable();
@@ -28,6 +29,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
+        }
+        Schema::dropIfExists('user');
     }
 };

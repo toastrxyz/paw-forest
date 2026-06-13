@@ -29,30 +29,31 @@ use function Livewire\Volt\{state};
         <div class="block-card auth-card">
             <h1>{{ __('Registration') }}</h1>
             <br>
-            <form action="#">
+            <form method="POST" action="/register">
+            @csrf
                 <div class="form-group">
-                    <label>{{ __('Full Name') }}</label>
-                    <input type="text" required>
+                    <label>Full Name</label>
+                    <input name="name" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label>{{ __('Username') }}</label>
-                    <input type="text" required>
+                    <label>Username</label>
+                    <input name="username" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label>{{ __('Email Address') }}</label>
-                    <input type="email" required>
+                    <label>Email Address</label>
+                    <input name="email" type="email" required>
                 </div>
                 <div class="form-group">
-                    <label>{{ __('Address') }}</label>
-                    <input type="text" placeholder="{{ __('Street, City, Postal Code') }}" required>
+                    <label>Address</label>
+                    <input name="address" type="text" placeholder="Street, City, Postal Code" required>
                 </div>
                 <div class="form-group">
-                    <label>{{ __('Password') }}</label>
-                    <input type="password" required>
+                    <label>Password</label>
+                    <input name="password" type="password" required>
                 </div>
                 <div class="form-group">
-                    <label>{{ __('Confirm Password') }}</label>
-                    <input type="password" required>
+                    <label>Confirm Password</label>
+                    <input name="password_confirmation" type="password" required>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-green register-btn">{{ __('Create Account') }}</button>
