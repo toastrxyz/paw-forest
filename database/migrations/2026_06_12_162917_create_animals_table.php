@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('breed', 100)->nullable();
             $table->integer('age')->nullable();
             $table->foreignId('location_id')->constrained('locations');
-            $table->binary('image')->nullable();
+            $table->string('image')->nullable();
             $table->timestamp('deleted_at')->nullable();
         });
     }
