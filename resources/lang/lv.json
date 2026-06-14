@@ -175,5 +175,7 @@
     "Locations":"Lokācijas",
     "Admin Panel":"Admin panelis",
     "Edit Profile Information": "Rediģēt konta informāciju",
-    "Save Changes": "Saglabāt izmaiņas"
+    "Save Changes": "Saglabāt izmaiņas",
+    "You have no scheduled shelter visits yet.":"Jums vēl nav ieplānotu patversmes apmeklējumu.",
+    "You have not submitted any adoption applications yet.":"Jums vēl nav iesniegtu adopcijas pieteikumu."
 }

@@ -87,4 +87,12 @@ class User extends Authenticatable implements PasskeyUser
             }
         });
     }
+    public function adoptionRequests()
+    {
+        return $this->hasMany(\App\Models\Adoption::class, 'id');
+    }
+    public function shelterVisits()
+    {
+        return $this->hasMany(\App\Models\Visit::class, 'id');
+    }
 }

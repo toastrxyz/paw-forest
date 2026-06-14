@@ -172,5 +172,7 @@
     "e.g. +371 20000000": "e.g. +371 20000000",
     "Locations":"Locations",
     "Admin Panel":"Admin Panel",
-    "Save Changes":"Save Chnages"
+    "Save Changes":"Save Changes",
+    "You have no scheduled shelter visits yet.":"You have no scheduled shelter visits yet.",
+    "You have not submitted any adoption applications yet.":"You have not submitted any adoption applications yet."
 }

@@ -131,45 +131,73 @@ use function Livewire\Volt\{state};
 
         <div class="block-card profile-history-card">
             <h2>{{ __('My Adoption Applications') }}</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>{{ __('Date') }}</th>
-                        <th>{{ __('Animal') }}</th>
-                        <th>{{ __('Comment') }}</th>
-                        <th>{{ __('Status') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>12.05.2026</td>
-                        <td>Bella(Rabbit)</td>
-                        <td>Looking for a friendly pet.</td>
-                        <td><span class="stat-green-num">{{ __('Approved') }}</span></td>
-                    </tr>
-                </tbody>
-            </table>
-
+            @if(auth()->user()->adoptionRequests && auth()->user()->adoptionRequests->count() > 0)
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{ __('Date') }}</th>
+                            <th>{{ __('Animal') }}</th>
+                            <th>{{ __('Comment') }}</th>
+                            <th>{{ __('Status') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(auth()->user()->adoptionRequests as $application)
+                            <tr>
+                                <td>{{ $application->date }}</td>
+                                <td>
+                                    {{ $application->animal->name ?? __('Unknown') }} 
+                                    ({{ $application->animal->species ?? __('N/A') }})
+                                </td>
+                                <td>{{ $application->comment }}</td>
+                                <td>
+                                    @if(strtolower($application->status) == 'approved')
+                                        <span class="stat-green-num">{{ __($application->status) }}</span>
+                                    @elseif(strtolower($application->status) == 'rejected')
+                                        <span class="stat-red-num">{{ __($application->status) }}</span>
+                                    @else
+                                        <span class="stat-purple-num">{{ __($application->status) }}</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p style="color: #8a7a74; font-style: italic; margin-top: 10px;">{{ __('You have not submitted any adoption applications yet.') }}</p>
+            @endif
             <br><br>
             <h2>{{ __('My Scheduled Visits') }}</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>{{ __('Date') }}</th>
-                        <th>{{ __('Location') }}</th>
-                        <th>{{ __('Animal') }}</th>
-                        <th>{{ __('Comment') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>15.06.2026</td>
-                        <td>Rīga</td>
-                        <td>Bella(Rabbit)</td>
-                        <td>Want to meet the bunny before adopting.</td>
-                    </tr>
-                </tbody>
-            </table>
+            @if(auth()->user()->shelterVisits && auth()->user()->shelterVisits->count() > 0)
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{ __('Date') }}</th>
+                            <th>{{ __('Location') }}</th>
+                            <th>{{ __('Animal') }}</th>
+                            <th>{{ __('Comment') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(auth()->user()->shelterVisits as $visit)
+                            <tr>
+                                <td>{{ $visit->date }}</td>
+                                <td>{{ $visit->location->city_name ?? ($visit->shelter_location ?? __('Main Shelter')) }}</td>
+                                <td>
+                                    @if($visit->animal)
+                                        {{ $visit->animal->name }} ({{ $visit->animal->species }})
+                                    @else
+                                        {{ __('General Visit') }}
+                                    @endif
+                                </td>
+                                <td>{{ $visit->comment }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p style="color: #8a7a74; font-style: italic; margin-top: 10px;">{{ __('You have no scheduled shelter visits yet.') }}</p>
+            @endif
         </div>
 
     </main>
