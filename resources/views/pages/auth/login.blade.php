@@ -32,11 +32,11 @@ use function Livewire\Volt\{state};
             <form method="POST" action="/login">
                 @csrf
                 <div class="form-group">
-                    <label>Email</label>
+                    <label>{{ __('Email') }}</label>
                     <input name="email" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label>{{ __('Password') }}</label>
                     <input name="password" type="password" required>
                 </div>
                 <br>

@@ -31,27 +31,27 @@ use function Livewire\Volt\{state};
             <form method="POST" action="/register">
             @csrf
                 <div class="form-group">
-                    <label>Full Name</label>
+                    <label>{{ __('Full Name') }}</label>
                     <input name="name" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label>Username</label>
+                    <label>{{ __('Username') }}</label>
                     <input name="username" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label>Email Address</label>
+                    <label>{{ __('Email') }}</label>
                     <input name="email" type="email" required>
                 </div>
                 <div class="form-group">
-                    <label>Address</label>
+                    <label>{{ __('Address') }}</label>
                     <input name="address" type="text" placeholder="Street, City, Postal Code" required>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label>{{ __('Password') }}</label>
                     <input name="password" type="password" required>
                 </div>
                 <div class="form-group">
-                    <label>Confirm Password</label>
+                    <label>{{ __('Confirm Password') }}</label>
                     <input name="password_confirmation" type="password" required>
                 </div>
                 <br>
