@@ -19,17 +19,6 @@ Route::get('/gallery/{id}', [AnimalController::class, 'show'])->name('gallery.sh
 Route::get('/donations', [DonationController::class, 'create'])->name('donations.create');
 Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
 
-// PAGAIDU !!! 
-Route::get('/init-db', function () {
-    try {
-        // Izpilda migrācijas un seederi ar force, lai apietu producēšanas aizliegumu
-        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
-        return 'Datubāze veiksmīgi inicializēta ar seeder datiem!';
-    } catch (\Exception $e) {
-        return 'Kļūda: ' . $e->getMessage();
-    }
-});
-
 // Language Switcher
 Route::get('/lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'lv'])) {
