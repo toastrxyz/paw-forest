@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ __('Admin - Edit Animal') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+    <link class="main-stylesheet" rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
 </head>
 <body>
 
@@ -30,50 +30,50 @@
         </aside>
 
         <main class="admin-main">
-            <div style="max-width: 600px; margin: 0 auto;">
+            <div class="form-narrow-wrapper">
                 <h1>{{ __('Modify Animal Details') }}</h1>
                 <br>
 
-                <div class="block-card" style="padding: 25px;">
+                <div class="block-card block-card-padded">
                     @if(auth()->user()->role === 'admin' || auth()->user()->role === 'employee')
                         <form action="/admin/animals/{{ $animal->id }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Name') }}</label>
-                                <input type="text" name="name" value="{{ old('name', $animal->name) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                            <div class="form-group-spacing">
+                                <label class="form-label-bold-block">{{ __('Name') }}</label>
+                                <input type="text" name="name" value="{{ old('name', $animal->name) }}" required class="form-control-field form-control-white-bg">
                             </div>
 
-                            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                                <div style="flex: 1;">
-                                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Species') }}</label>
-                                    <input type="text" name="species" value="{{ old('species', $animal->species) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                            <div class="form-flex-row-container">
+                                <div class="flex-field-fill-proportionate">
+                                    <label class="form-label-bold-block">{{ __('Species') }}</label>
+                                    <input type="text" name="species" value="{{ old('species', $animal->species) }}" required class="form-control-field form-control-white-bg">
                                 </div>
-                                <div style="flex: 1;">
-                                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Breed') }}</label>
-                                    <input type="text" name="breed" value="{{ old('breed', $animal->breed) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                                <div class="flex-field-fill-proportionate">
+                                    <label class="form-label-bold-block">{{ __('Breed') }}</label>
+                                    <input type="text" name="breed" value="{{ old('breed', $animal->breed) }}" required class="form-control-field form-control-white-bg">
                                 </div>
                             </div>
 
-                            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                                <div style="flex: 1;">
-                                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Gender') }}</label>
-                                    <select name="gender" style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                            <div class="form-flex-row-container">
+                                <div class="flex-field-fill-proportionate">
+                                    <label class="form-label-bold-block">{{ __('Gender') }}</label>
+                                    <select name="gender" class="form-control-field form-control-white-bg">
                                         <option value="Male" {{ old('gender', $animal->gender) === 'Male' ? 'selected' : '' }}>{{ __('Male') }}</option>
                                         <option value="Female" {{ old('gender', $animal->gender) === 'Female' ? 'selected' : '' }}>{{ __('Female') }}</option>
                                     </select>
                                 </div>
-                                <div style="flex: 1;">
-                                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Health Status') }}</label>
-                                    <input type="text" name="health_status" value="{{ old('health_status', $animal->health_status) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                                <div class="flex-field-fill-proportionate">
+                                    <label class="form-label-bold-block">{{ __('Health Status') }}</label>
+                                    <input type="text" name="health_status" value="{{ old('health_status', $animal->health_status) }}" required class="form-control-field form-control-white-bg">
                                 </div>
                             </div>
 
-                            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                                <div style="flex: 1;">
-                                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Shelter Location') }}</label>
-                                    <select name="location_id" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                            <div class="form-flex-row-container">
+                                <div class="flex-field-fill-proportionate">
+                                    <label class="form-label-bold-block">{{ __('Shelter Location') }}</label>
+                                    <select name="location_id" required class="form-control-field form-control-white-bg">
                                         @foreach(\App\Models\Location::all() as $loc)
                                             <option value="{{ $loc->id }}" {{ old('location_id', $animal->location_id) == $loc->id ? 'selected' : '' }}>
                                                 {{ $loc->name }}
@@ -81,48 +81,48 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div style="flex: 1;">
-                                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Date Added') }}</label>
-                                    <input type="date" name="date_added" value="{{ old('date_added', $animal->date_added ? \Carbon\Carbon::parse($animal->date_added)->format('Y-m-d') : '') }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                                <div class="flex-field-fill-proportionate">
+                                    <label class="form-label-bold-block">{{ __('Date Added') }}</label>
+                                    <input type="date" name="date_added" value="{{ old('date_added', $animal->date_added ? \Carbon\Carbon::parse($animal->date_added)->format('Y-m-d') : '') }}" required class="form-control-field form-control-white-bg">
                                 </div>
                             </div>
 
-                            <div style="margin-bottom: 25px;">
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Animal Image') }}</label>
+                            <div class="form-group-spacing-large">
+                                <label class="form-label-bold-block">{{ __('Animal Image') }}</label>
                                 @if($animal->image)
-                                    <div style="margin-bottom: 10px;">
-                                        <img src="{{ asset($animal->image) }}" alt="Current Image" style="max-width: 150px; border-radius: 6px; border: 1px solid #bbaaa2;">
+                                    <div class="thumbnail-preview-wrapper">
+                                        <img src="{{ asset($animal->image) }}" alt="Current Image" class="thumbnail-preview-img">
                                     </div>
                                 @endif
-                                <input type="file" name="image" accept="image/*" style="padding: 5px 0;">
+                                <input type="file" name="image" accept="image/*" class="file-upload-input-spacing">
                             </div>
 
-                            <div style="display: flex; gap: 10px;">
+                            <div class="action-flex-gap-sm">
                                 <button type="submit" class="btn btn-green">{{ __('Save Changes') }}</button>
-                                <a href="/admin/animals" class="btn" style="background:#e2dcd8; color:#333; padding: 10px 16px; text-decoration:none; border-radius:4px; font-size: 0.9rem;">{{ __('Cancel') }}</a>
+                                <a href="/admin/animals" class="btn btn-cancel-secondary">{{ __('Cancel') }}</a>
                             </div>
                         </form>
 
-                        <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid #fee2e2;">
-                            <div style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 20px; border-radius: 8px;">
-                                <h4 style="color: #991b1b; margin: 0 0 8px 0; font-size: 1.05rem; font-weight: bold;">⚠️ {{ __('Danger Zone Management') }}</h4>
-                                <p style="color: #7f1d1d; font-size: 0.85rem; margin: 0 0 15px 0; line-height: 1.4;">
+                        <div class="danger-zone-divider">
+                            <div class="danger-zone-card">
+                                <h4 class="danger-zone-title">⚠️ {{ __('Danger Zone Management') }}</h4>
+                                <p class="danger-zone-description">
                                     {{ __('Manage database status constraints for this system shelter animal record entry.') }}
                                 </p>
                                 
-                                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <div class="action-flex-wrap-gap-md">
                                     @if($animal->trashed())
-                                        <form action="/admin/animals/{{ $animal->id }}/restore" method="POST" style="margin:0;">
+                                        <form action="/admin/animals/{{ $animal->id }}/restore" method="POST" class="inline-form">
                                             @csrf
-                                            <button type="submit" class="btn btn-blue" style="padding: 10px 16px; font-size: 0.85rem;">
+                                            <button type="submit" class="btn btn-blue danger-zone-btn">
                                                 {{ __('Restore Entry') }}
                                             </button>
                                         </form>
                                     @else
-                                        <form action="/admin/animals/{{ $animal->id }}" method="POST" onsubmit="return confirm('{{ __('Dzēst dzīvnieka ierakstu?') }}')" style="margin:0;">
+                                        <form action="/admin/animals/{{ $animal->id }}" method="POST" onsubmit="return confirm('{{ __('Dzēst dzīvnieka ierakstu?') }}')" class="inline-form">
                                             @csrf 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red" style="padding: 10px 16px; font-size: 0.85rem; font-weight: 500;">
+                                            <button type="submit" class="btn btn-red danger-zone-btn">
                                                 {{ __('Archive') }}
                                             </button>
                                         </form>
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px;">
+                        <div class="alert alert-danger custom-alert-denied">
                             {{ __('Access Denied. You do not have permission to edit records.') }}
                         </div>
                     @endif

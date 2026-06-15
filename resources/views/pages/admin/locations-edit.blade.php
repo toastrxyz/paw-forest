@@ -32,55 +32,54 @@
             </div>
             <div>
                 <a href="/" class="btn btn-blue logout-btn margin-bottom-sm">🏠 {{ __('Home') }}</a>
-                <a href="#" class="btn btn-red logout-btn" 
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="#" class="btn btn-red logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Log out') }}
                 </a>
-                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                <form id="logout-form" action="/logout" method="POST" class="hidden-element">
                     @csrf
                 </form>
             </div>
         </aside>
 
         <main class="admin-main">
-            <div style="max-width: 600px; margin: 0 auto;">
+            <div class="form-narrow-wrapper">
                 <h1>{{ __('Edit Shelter Location') }}</h1>
                 <br>
 
-                <div class="block-card" style="padding: 25px;">
+                <div class="block-card block-card-padded">
                     @if(auth()->user()->role === 'admin')
                         <form action="/admin/locations/{{ $location->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Shelter Name') }}</label>
-                                <input type="text" name="name" value="{{ old('name', $location->name) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                            <div class="form-group-spacing">
+                                <label class="form-label-bold-block">{{ __('Shelter Name') }}</label>
+                                <input type="text" name="name" value="{{ old('name', $location->name) }}" required class="form-control-field">
                             </div>
 
-                            <div style="margin-bottom: 25px;">
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Address') }}</label>
-                                <input type="text" name="address" value="{{ old('address', $location->address) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                            <div class="form-group-spacing-large">
+                                <label class="form-label-bold-block">{{ __('Address') }}</label>
+                                <input type="text" name="address" value="{{ old('address', $location->address) }}" required class="form-control-field">
                             </div>
 
-                            <div style="display: flex; gap: 10px;">
+                            <div class="action-flex-gap-sm">
                                 <button type="submit" class="btn btn-green">{{ __('Save Changes') }}</button>
-                                <a href="/admin/locations" class="btn" style="background:#e2dcd8; color:#333; padding: 10px 16px; text-decoration:none; border-radius:4px; font-size: 0.9rem;">{{ __('Cancel') }}</a>
+                                <a href="/admin/locations" class="btn btn-cancel-secondary">{{ __('Cancel') }}</a>
                             </div>
                         </form>
 
-                        <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid #fee2e2;">
-                            <div style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 20px; border-radius: 8px;">
-                                <h4 style="color: #991b1b; margin: 0 0 8px 0; font-size: 1.05rem; font-weight: bold;">⚠️ {{ __('Danger Zone Management') }}</h4>
-                                <p style="color: #7f1d1d; font-size: 0.85rem; margin: 0 0 15px 0; line-height: 1.4;">
+                        <div class="danger-zone-divider">
+                            <div class="danger-zone-card">
+                                <h4 class="danger-zone-title">⚠️ {{ __('Danger Zone Management') }}</h4>
+                                <p class="danger-zone-description">
                                     {{ __('Manage database status constraints for this system physical shelter location unit.') }}
                                 </p>
                                 
-                                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                                    <form action="/admin/locations/{{ $location->id }}" method="POST" onsubmit="return confirm('{{ __('Are you sure you want to delete this location?') }}')" style="margin:0;">
+                                <div class="action-flex-wrap-gap-md">
+                                    <form action="/admin/locations/{{ $location->id }}" method="POST" onsubmit="return confirm('{{ __('Are you sure you want to delete this location?') }}')" class="inline-form">
                                         @csrf 
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-red" style="padding: 10px 16px; font-size: 0.85rem; font-weight: 500;">
+                                        <button type="submit" class="btn btn-red danger-zone-btn">
                                             {{ __('Archive') }}
                                         </button>
                                     </form>
@@ -88,7 +87,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px;">
+                        <div class="alert alert-danger custom-alert-denied">
                             {{ __('Access Denied. Only system administrators can update or modify physical shelter locations.') }}
                         </div>
                     @endif

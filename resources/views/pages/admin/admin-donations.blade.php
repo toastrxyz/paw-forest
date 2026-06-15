@@ -36,7 +36,7 @@
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Log out') }}
                 </a>
-                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                <form id="logout-form" action="/logout" method="POST" class="hidden-element">
                     @csrf
                 </form>
             </div>
@@ -47,12 +47,12 @@
             <br>
 
             @if(session('error'))
-                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div class="alert alert-danger error-alert-box">
                     ⚠️ {{ session('error') }}
                 </div>
             @endif
             @if(session('status'))
-                <div class="alert alert-success" style="background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div class="alert alert-success success-alert-box">
                     {{ session('status') }}
                 </div>
             @endif
@@ -72,17 +72,16 @@
                     </thead>
                     <tbody>
                         @php
-                            // Updated to query including soft-deleted items
                             $donations = \App\Models\Donation::withTrashed()->with('user')->get();
                         @endphp
 
                         @if($donations->count() > 0)
                             @foreach($donations as $donation)
-                                <tr style="{{ $donation->trashed() ? 'background-color: #fcf8e3; opacity: 0.85;' : '' }}">
+                                <tr class="{{ $donation->trashed() ? 'archived-row-style' : '' }}">
                                     <td>#D{{ $donation->id }}</td>
                                     <td>
                                         #U{{ $donation->user_id }} 
-                                        <small style="color: #8a7a74; display: block;">
+                                        <small class="muted-block-label">
                                             {{ $donation->user->name ?? __('System User') }}
                                         </small>
                                     </td>
@@ -96,29 +95,29 @@
                                     <td>{{ $donation->message ?? '-' }}</td>
                                     <td class="table-actions">
                                         @if(auth()->user()->role === 'admin')
-                                            <div style="display: flex; gap: 6px; align-items: center; justify-content: flex-start;">
+                                            <div class="action-flex-left-aligned">
                                                 @if($donation->trashed())
-                                                    <form action="/admin/donations/{{ $donation->id }}/restore" method="POST" style="margin: 0; display: inline;">
+                                                    <form action="/admin/donations/{{ $donation->id }}/restore" method="POST" class="inline-form">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-green" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; white-space: nowrap;">
+                                                        <button type="submit" class="btn btn-green action-btn-compact">
                                                             {{ __('Restore') }}
                                                         </button>
                                                     </form>
                                                 @else
-                                                    <a href="/admin/donations/{{ $donation->id }}/edit" class="btn btn-blue" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; border-radius: 4px; display: inline-block; white-space: nowrap;">
+                                                    <a href="/admin/donations/{{ $donation->id }}/edit" class="btn btn-blue action-link-compact">
                                                         {{ __('Edit') }}
                                                     </a>
                                                 @endif
                                             </div>
                                         @else
-                                            <span style="color: #8a7a74; font-style: italic;">{{ __('Read Only') }}</span>
+                                            <span class="read-only-label">{{ __('Read Only') }}</span>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="7" style="text-align: center; color: #8a7a74; font-style: italic; padding: 20px;">
+                                <td colspan="7" class="no-records-cell">
                                     {{ __('No database records found.') }}
                                 </td>
                             </tr>

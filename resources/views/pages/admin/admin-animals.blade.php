@@ -39,7 +39,7 @@ use function Livewire\Volt\{state};
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Log out') }}
                 </a>
-                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                <form id="logout-form" action="/logout" method="POST" class="hidden-element">
                     @csrf
                 </form>
             </div>
@@ -50,12 +50,12 @@ use function Livewire\Volt\{state};
             <br>
 
             @if(session('error'))
-                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div class="alert alert-danger error-alert-box">
                     ⚠️ {{ session('error') }}
                 </div>
             @endif
             @if(session('status'))
-                <div class="alert alert-success" style="background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div class="alert alert-success success-alert-box">
                     {{ session('status') }}
                 </div>
             @endif
@@ -84,43 +84,43 @@ use function Livewire\Volt\{state};
                     </thead>
                     <tbody>
                         @if(in_array(auth()->user()->role, ['admin', 'employee']))
-                            <tr class="inline-add-row" style="background-color: #fdfbf7;">
-                                <td><span class="auto-id" style="font-weight: bold; color: #8a7a74;">{{ __('Auto') }}</span></td>
-                                <td><input type="file" form="create-animal-form" name="image" accept="image/*" class="table-file-upload" style="max-width: 130px;"></td>
-                                <td><input type="text" form="create-animal-form" name="name" placeholder="{{ __('e.g. Buddy') }}" required style="width: 100%; box-sizing: border-box; background: #fff;"></td>
-                                <td><input type="text" form="create-animal-form" name="species" placeholder="{{ __('e.g. Dog') }}" required style="width: 100%; box-sizing: border-box; background: #fff;"></td>
-                                <td><input type="text" form="create-animal-form" name="breed" placeholder="{{ __('e.g. Golden') }}" required style="width: 100%; box-sizing: border-box; background: #fff;"></td>
+                            <tr class="inline-add-row row-light-bg">
+                                <td><span class="auto-id auto-id-bold">{{ __('Auto') }}</span></td>
+                                <td><input type="file" form="create-animal-form" name="image" accept="image/*" class="table-file-upload file-upload-constrained"></td>
+                                <td><input type="text" form="create-animal-form" name="name" placeholder="{{ __('e.g. Buddy') }}" required class="full-width-input white-bg"></td>
+                                <td><input type="text" form="create-animal-form" name="species" placeholder="{{ __('e.g. Dog') }}" required class="full-width-input white-bg"></td>
+                                <td><input type="text" form="create-animal-form" name="breed" placeholder="{{ __('e.g. Golden') }}" required class="full-width-input white-bg"></td>
                                 <td>
-                                    <select form="create-animal-form" name="gender" style="width: 100%; box-sizing: border-box; background: #fff;">
+                                    <select form="create-animal-form" name="gender" class="full-width-input white-bg">
                                         <option value="Male">{{ __('Male') }}</option>
                                         <option value="Female">{{ __('Female') }}</option>
                                     </select>
                                 </td>
-                                <td><input type="text" form="create-animal-form" name="health_status" placeholder="{{ __('e.g. Healthy') }}" required style="width: 100%; box-sizing: border-box; background: #fff;"></td>
+                                <td><input type="text" form="create-animal-form" name="health_status" placeholder="{{ __('e.g. Healthy') }}" required class="full-width-input white-bg"></td>
                                 <td>
-                                    <select form="create-animal-form" name="location_id" required style="width: 100%; box-sizing: border-box; background: #fff;">
+                                    <select form="create-animal-form" name="location_id" required class="full-width-input white-bg">
                                         @foreach(\App\Models\Location::all() as $loc)
                                             <option value="{{ $loc->id }}">{{ $loc->name }}</option>
                                         @endforeach
                                     </select>
                                 </td>
-                                <td><input type="date" form="create-animal-form" name="date_added" required style="width: 100%; box-sizing: border-box; background: #fff;"></td>
+                                <td><input type="date" form="create-animal-form" name="date_added" required class="full-width-input white-bg"></td>
                                 <td>
-                                    <button type="submit" form="create-animal-form" class="btn btn-green table-inline-btn" style="width: 100%;">{{ __('Save') }}</button>
+                                    <button type="submit" form="create-animal-form" class="btn btn-green table-inline-btn full-width-btn">{{ __('Save') }}</button>
                                 </td>
                             </tr>
                         @endif
                         
                         @if($allAnimals->count() > 0)
                             @foreach($allAnimals as $animal)
-                                <tr style="{{ $animal->trashed() ? 'background-color: #fcf8e3; opacity: 0.85;' : '' }}">
+                                <tr class="{{ $animal->trashed() ? 'archived-row-style' : '' }}">
                                     <td>#{{ sprintf('%03d', $animal->id) }}</td>
                                     <td>
-                                        <div style="width: 45px; height: 45px; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid #bbaaa2;">
+                                        <div class="table-image-container">
                                             @if($animal->image)
-                                                <img src="{{ asset($animal->image) }}" alt="{{ $animal->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                                <img src="{{ asset($animal->image) }}" alt="{{ $animal->name }}" class="table-image-element">
                                             @else
-                                                <div style="width: 100%; height: 100%; background-color: #e2dcd8; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                                                <div class="table-image-fallback">
                                                     🐾
                                                 </div>
                                             @endif
@@ -129,7 +129,7 @@ use function Livewire\Volt\{state};
                                     <td>
                                         <strong>{{ $animal->name }}</strong>
                                         @if($animal->trashed())
-                                            <small style="color: #b94a48; display: block; font-weight: bold;">({{ __('Archived') }})</small>
+                                            <small class="archived-text-label">({{ __('Archived') }})</small>
                                         @endif
                                     </td>
                                     <td>{{ __($animal->species) }}</td>
@@ -141,9 +141,9 @@ use function Livewire\Volt\{state};
                                         {{ $animal->date_added ? \Carbon\Carbon::parse($animal->date_added)->format('Y-m-d') : '-' }}
                                     </td>
                                     @if ($errors->any())
-                                        <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
-                                            <h5 style="margin: 0 0 5px 0; font-weight: bold;">{{ __('Please correct the following errors:') }}</h5>
-                                            <ul style="margin: 0; padding-left: 20px; font-size: 0.9rem;">
+                                        <div class="alert alert-danger validation-error-box">
+                                            <h5 class="validation-error-title">{{ __('Please correct the following errors:') }}</h5>
+                                            <ul class="validation-error-list">
                                                 @foreach ($errors->all() as $error)
                                                     <li>{{ $error }}</li>
                                                 @endforeach
@@ -153,36 +153,36 @@ use function Livewire\Volt\{state};
                                     <td class="table-actions">
                                         @if(in_array(auth()->user()->role, ['admin', 'employee']))
                                             @if($animal->trashed())
-                                                <div style="display: flex; gap: 4px;">
-                                                    <form id="restore-form-{{ $animal->id }}" action="{{ route('animals.restore', $animal->id) }}" method="POST" style="display:none;">
+                                                <div class="action-flex-container">
+                                                    <form id="restore-form-{{ $animal->id }}" action="{{ route('animals.restore', $animal->id) }}" method="POST" class="hidden-element">
                                                         @csrf
                                                     </form>
-                                                    <button type="submit" form="restore-form-{{ $animal->id }}" class="btn btn-green" style="white-space: nowrap; padding: 6px 10px; font-size: 0.8rem;">
+                                                    <button type="submit" form="restore-form-{{ $animal->id }}" class="btn btn-green action-btn-compact">
                                                          {{ __('Restore') }}
                                                     </button>
 
                                                     @if(auth()->user()->role === 'admin')
-                                                        <form id="force-delete-form-{{ $animal->id }}" action="/admin/animals/{{ $animal->id }}/force-delete" method="POST" onsubmit="return confirm('{{ __('Pilnībā dzēst dzīvnieku neatgriezeniski?') }}')" style="display:none;">
+                                                        <form id="force-delete-form-{{ $animal->id }}" action="/admin/animals/{{ $animal->id }}/force-delete" method="POST" onsubmit="return confirm('{{ __('Pilnībā dzēst dzīvnieku neatgriezeniski?') }}')" class="hidden-element">
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>
-                                                        <button type="submit" form="force-delete-form-{{ $animal->id }}" class="btn btn-red" style="white-space: nowrap; padding: 6px 10px; font-size: 0.8rem;">
+                                                        <button type="submit" form="force-delete-form-{{ $animal->id }}" class="btn btn-red action-btn-compact">
                                                             {{ __('Force Delete') }}
                                                         </button>
                                                     @endif
                                                 </div>
                                             @else
-                                                <a href="/admin/animals/{{ $animal->id }}/edit" class="btn btn-blue" style="margin-bottom: 2px; display: inline-block; white-space: nowrap;">{{ __('Edit') }}</a>
+                                                <a href="/admin/animals/{{ $animal->id }}/edit" class="btn btn-blue action-link-compact">{{ __('Edit') }}</a>
                                             @endif
                                         @else
-                                            <span style="color: #8a7a74; font-style: italic;">{{ __('Read Only') }}</span>
+                                            <span class="read-only-label">{{ __('Read Only') }}</span>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="10" style="text-align: center; color: #8a7a74; font-style: italic; padding: 20px;">
+                                <td colspan="10" class="no-records-cell">
                                     {{ __('No database records found.') }}
                                 </td>
                             </tr>

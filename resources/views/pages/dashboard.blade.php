@@ -106,9 +106,7 @@ use function Livewire\Volt\{state};
                                     <td>{{ $adoption->date }}</td>
                                     <td>{{ $adoption->user->name ?? __('Unknown') }}</td>
                                     <td>{{ $adoption->animal->name ?? __('Unknown') }}</td>
-                                    <td>
-                                        {{ $adoption->employee->user->name ?? __('Unassigned') }}
-                                    </td>
+                                    <td>{{ $adoption->employee->user->name ?? __('Unassigned') }}</td>
                                     <td>
                                         @if(strtolower($adoption->status) === 'approved')
                                             <span class="stat-green-num">{{ __('Approved') }}</span>
@@ -120,7 +118,6 @@ use function Livewire\Volt\{state};
                                     </td>
                                     <td class="table-actions">
                                         @if(strtolower($adoption->status) === 'pending')
-                                            {{-- Operational Form Elements --}}
                                             <form action="/admin/applications/{{ $adoption->id }}/approve" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('PATCH')
@@ -176,7 +173,6 @@ use function Livewire\Volt\{state};
                                     <td>{{ __($animal->health_status) }}</td>
                                     <td>{{ $animal->location->name ?? __('Unknown') }}</td>
                                     <td class="table-actions">
-                                        {{-- Only showing the clean Edit action here --}}
                                         <a href="/admin/animals/{{ $animal->id }}/edit" class="btn btn-blue" style="padding: 4px 8px; font-size: 0.85rem; text-decoration: none; display: inline-block;">{{ __('Edit') }}</a>
                                     </td>
                                 </tr>

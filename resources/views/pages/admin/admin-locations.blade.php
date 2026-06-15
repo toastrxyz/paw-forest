@@ -39,7 +39,7 @@ use function Livewire\Volt\{state};
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Log out') }}
                 </a>
-                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                <form id="logout-form" action="/logout" method="POST" class="hidden-element">
                     @csrf
                 </form>
             </div>
@@ -50,12 +50,12 @@ use function Livewire\Volt\{state};
             <br>
 
             @if(session('error'))
-                <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div class="alert alert-danger error-alert-box">
                     ⚠️ {{ session('error') }}
                 </div>
             @endif
             @if(session('status'))
-                <div class="alert alert-success" style="background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div class="alert alert-success success-alert-box">
                     {{ session('status') }}
                 </div>
             @endif
@@ -79,47 +79,47 @@ use function Livewire\Volt\{state};
                     </thead>
                     <tbody>
                         @if(auth()->user()->role === 'admin')
-                            <tr class="inline-add-row" style="background-color: #fdfbf7;">
-                                <td><span class="auto-id" style="font-weight: bold; color: #8a7a74;">{{ __('Auto') }}</span></td>
-                                <td><input type="text" form="create-location-form" name="name" placeholder="{{ __('e.g. Valmiera') }}" required style="width: 100%; box-sizing: border-box;"></td>
-                                <td><input type="text" form="create-location-form" name="address" placeholder="{{ __('e.g. Parka iela 12') }}" required style="width: 100%; box-sizing: border-box;"></td>
-                                <td><span style="color: #28a745; font-weight: bold;">● {{ __('New') }}</span></td>
+                            <tr class="inline-add-row inline-creation-bg">
+                                <td><span class="auto-id creation-placeholder-text">{{ __('Auto') }}</span></td>
+                                <td><input type="text" form="create-location-form" name="name" placeholder="{{ __('e.g. Valmiera') }}" required class="table-input-field"></td>
+                                <td><input type="text" form="create-location-form" name="address" placeholder="{{ __('e.g. Parka iela 12') }}" required class="table-input-field"></td>
+                                <td><span class="status-badge-active">● {{ __('New') }}</span></td>
                                 <td>
-                                    <button type="submit" form="create-location-form" class="btn btn-green table-inline-btn" style="width: 100%;">{{ __('Save') }}</button>
+                                    <button type="submit" form="create-location-form" class="btn btn-green table-inline-btn full-width-element">{{ __('Save') }}</button>
                                 </td>
                             </tr>
                         @endif
 
                         @foreach(\App\Models\Location::withTrashed()->get() as $location)
-                            <tr style="{{ $location->trashed() ? 'background-color: #fcf8e3; opacity: 0.85;' : '' }}">
+                            <tr class="{{ $location->trashed() ? 'archived-row-style' : '' }}">
                                 <td>#L{{ sprintf('%02d', $location->id) }}</td>
                                 <td>{{ $location->name }}</td>
                                 <td>{{ $location->address }}</td>
                                 <td>
                                     @if($location->trashed())
-                                        <span style="color: #dc3545; font-weight: bold;">{{ __('Archived') }}</span>
+                                        <span class="status-badge-archived">{{ __('Archived') }}</span>
                                     @else
-                                        <span style="color: #28a745; font-weight: bold;">{{ __('Active') }}</span>
+                                        <span class="status-badge-active">{{ __('Active') }}</span>
                                     @endif
                                 </td>
                                 <td class="table-actions">
                                     @if(auth()->user()->role === 'admin')
-                                        <div style="display: flex; gap: 6px; align-items: center; justify-content: flex-start;">
+                                        <div class="action-flex-left-aligned">
                                             @if($location->trashed())
-                                                <form action="/admin/locations/{{ $location->id }}/restore" method="POST" style="margin: 0; display: inline;">
+                                                <form action="/admin/locations/{{ $location->id }}/restore" method="POST" class="inline-form">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-green" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; white-space: nowrap;">
+                                                    <button type="submit" class="btn btn-green action-btn-compact">
                                                         {{ __('Restore') }}
                                                     </button>
                                                 </form>
                                             @else
-                                                <a href="/admin/locations/{{ $location->id }}/edit" class="btn btn-blue" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; border-radius: 4px; display: inline-block; white-space: nowrap;">
+                                                <a href="/admin/locations/{{ $location->id }}/edit" class="btn btn-blue action-link-compact">
                                                     {{ __('Edit') }}
                                                 </a>
                                             @endif
                                         </div>
                                     @else
-                                        <span style="color: #8a7a74; font-style: italic;">{{ __('Read Only') }}</span>
+                                        <span class="read-only-label">{{ __('Read Only') }}</span>
                                     @endif
                                 </td>
                             </tr>

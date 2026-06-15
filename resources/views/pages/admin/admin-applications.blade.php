@@ -33,10 +33,11 @@ use function Livewire\Volt\{state};
                     <option value="/lang/lv" {{ app()->getLocale() == 'lv' ? 'selected' : '' }}>🌐 LV</option>
                 </select>
             </div>
+
             <div>
                 <a href="/" class="btn btn-blue logout-btn margin-bottom-sm">🏠 {{ __('Home') }}</a>
                 <a href="#" class="btn btn-red logout-btn" 
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Log out') }}
                 </a>
 
@@ -50,7 +51,7 @@ use function Livewire\Volt\{state};
             <h1>{{ __('Adoption Requests') }}</h1>
             
             @if(session('status'))
-                <div class="alert alert-success" style="background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
             @endif
@@ -76,21 +77,21 @@ use function Livewire\Volt\{state};
 
                         @if($adoptions->count() > 0)
                             @foreach($adoptions as $adoption)
-                                <tr style="{{ $adoption->trashed() ? 'background-color: #fcf8e3; opacity: 0.85;' : '' }}">
+                                <tr class="{{ $adoption->trashed() ? 'row-trashed' : '' }}">
                                     <td>
                                         #A{{ sprintf('%02d', $adoption->id) }}
                                         @if($adoption->trashed())
-                                            <small style="color: #b94a48; display: block; font-weight: bold;">({{ __('Deleted') }})</small>
+                                            <small class="text-danger-bold">({{ __('Deleted') }})</small>
                                         @endif
                                     </td>
                                     <td>{{ $adoption->date }}</td>
                                     <td>
                                         <strong>{{ $adoption->user->name ?? __('Unknown User') }}</strong> 
-                                        <span style="color: #8a7a74; font-size: 0.8rem; display: block;">#U{{ $adoption->user_id }}</span>
+                                        <span class="sub-id-text">#U{{ $adoption->user_id }}</span>
                                     </td>
                                     <td>
                                         <strong>{{ $adoption->animal->name ?? __('Unknown Animal') }}</strong>
-                                        <span style="color: #8a7a74; font-size: 0.8rem; display: block;">#{{ $adoption->animal_id }}</span>
+                                        <span class="sub-id-text">#{{ $adoption->animal_id }}</span>
                                     </td>
                                     <td>
                                         {{ $adoption->employee->user->name ?? __('Unassigned') }}
@@ -111,7 +112,7 @@ use function Livewire\Volt\{state};
                                                 <form id="restore-adopt-{{ $adoption->id }}" action="/admin/applications/{{ $adoption->id }}/restore" method="POST" style="display: none;">
                                                     @csrf
                                                 </form>
-                                                <button type="submit" form="restore-adopt-{{ $adoption->id }}" class="btn-table-action btn-green" style="margin-bottom: 2px;">
+                                                <button type="submit" form="restore-adopt-{{ $adoption->id }}" class="btn-table-action btn-green margin-bottom-xs">
                                                     {{ __('Restore') }}
                                                 </button>
                                             @endif
@@ -146,7 +147,7 @@ use function Livewire\Volt\{state};
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                    <button type="submit" form="archive-adopt-{{ $adoption->id }}" class="btn-table-action btn-blue" style="margin-top: 2px;" onclick="return confirm('Are you sure you want to delete this application?')">
+                                                    <button type="submit" form="archive-adopt-{{ $adoption->id }}" class="btn-table-action btn-blue margin-top-xs" onclick="return confirm('Are you sure you want to delete this application?')">
                                                         🗑️ {{ __('Delete') }}
                                                     </button>
                                                 @endif
@@ -157,7 +158,7 @@ use function Livewire\Volt\{state};
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="8" style="text-align: center; color: #8a7a74; font-style: italic; padding: 20px;">
+                                <td colspan="8" class="table-empty-state">
                                     {{ __('No adoption requests recorded.') }}
                                 </td>
                             </tr>
@@ -166,9 +167,10 @@ use function Livewire\Volt\{state};
                 </table>
             </div>
 
-            <br><br>
+            <div class="content-spacer"></div>
             
             <h1>{{ __('Shelter Visits') }}</h1>
+
             <div class="block-card">
                 <table>
                     <thead>
@@ -191,21 +193,21 @@ use function Livewire\Volt\{state};
 
                         @if($visits->count() > 0)
                             @foreach($visits as $visit)
-                                <tr style="{{ $visit->trashed() ? 'background-color: #fcf8e3; opacity: 0.85;' : '' }}">
+                                <tr class="{{ $visit->trashed() ? 'row-trashed' : '' }}">
                                     <td>
                                         #V{{ sprintf('%02d', $visit->id) }}
                                         @if($visit->trashed())
-                                            <small style="color: #b94a48; display: block; font-weight: bold;">({{ __('Deleted') }})</small>
+                                            <small class="text-danger-bold">({{ __('Deleted') }})</small>
                                         @endif
                                     </td>
                                     <td>{{ $visit->date }}</td>
                                     <td>
                                         <strong>{{ $visit->user->name ?? __('Unknown User') }}</strong>
-                                        <span style="color: #8a7a74; font-size: 0.8rem; display: block;">#U{{ $visit->user_id }}</span>
+                                        <span class="sub-id-text">#U{{ $visit->user_id }}</span>
                                     </td>
                                     <td>
                                         <strong>{{ $visit->animal->name ?? __('Unknown Animal') }}</strong>
-                                        <span style="color: #8a7a74; font-size: 0.8rem; display: block;">#{{ $visit->animal_id }}</span>
+                                        <span class="sub-id-text">#{{ $visit->animal_id }}</span>
                                     </td>
                                     <td>{{ $visit->location->name ?? __('Unknown Location') }}</td>
                                     <td>
@@ -227,7 +229,7 @@ use function Livewire\Volt\{state};
                                                 <form id="restore-visit-{{ $visit->id }}" action="/admin/visits/{{ $visit->id }}/restore" method="POST" style="display: none;">
                                                     @csrf
                                                 </form>
-                                                <button type="submit" form="restore-visit-{{ $visit->id }}" class="btn-table-action btn-green" style="margin-bottom: 2px;">
+                                                <button type="submit" form="restore-visit-{{ $visit->id }}" class="btn-table-action btn-green margin-bottom-xs">
                                                     {{ __('Restore') }}
                                                 </button>
                                             @endif
@@ -255,13 +257,14 @@ use function Livewire\Volt\{state};
                                                 </form>
                                                 <button type="submit" form="visit-reject-{{ $visit->id }}" class="btn-table-action btn-red">{{ __('Reject') }}</button>
                                             @endif
+
                                             @if(in_array(strtolower($visit->status ?? ''), ['approved', 'rejected']))
                                                 @if(in_array(auth()->user()->role, ['admin', 'employee']))
                                                     <form id="archive-visit-{{ $visit->id }}" action="/admin/visits/{{ $visit->id }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-                                                    <button type="submit" form="archive-visit-{{ $visit->id }}" class="btn-table-action btn-blue" style="margin-top: 2px;" onclick="return confirm('Are you sure you want to delete this visit record?')">
+                                                    <button type="submit" form="archive-visit-{{ $visit->id }}" class="btn-table-action btn-blue margin-top-xs" onclick="return confirm('Are you sure you want to delete this visit record?')">
                                                         🗑️ {{ __('Delete') }}
                                                     </button>
                                                 @endif
@@ -272,7 +275,7 @@ use function Livewire\Volt\{state};
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="9" style="text-align: center; color: #8a7a74; font-style: italic; padding: 20px;">
+                                <td colspan="9" class="table-empty-state">
                                     {{ __('No scheduled visit records found.') }}
                                 </td>
                             </tr>

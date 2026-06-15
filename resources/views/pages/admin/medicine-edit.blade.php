@@ -35,25 +35,25 @@
                 <a href="#" class="btn btn-red logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Log out') }}
                 </a>
-                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                <form id="logout-form" action="/logout" method="POST" class="hidden-element">
                     @csrf
                 </form>
             </div>
         </aside>
 
         <main class="admin-main">
-            <div style="max-width: 600px; margin: 0 auto;">
+            <div class="form-narrow-wrapper">
                 <h1>{{ __('Edit Medication Log') }}</h1>
                 <br>
 
-                <div class="block-card" style="padding: 25px;">
+                <div class="block-card block-card-padded">
                     <form action="/admin/medicine/{{ $med->id }}" method="POST">
                         @csrf
                         @method('PUT')
 
-                        <div style="margin-bottom: 15px;">
-                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Patient Animal') }} *</label>
-                            <select name="animal_id" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                        <div class="form-group-spacing">
+                            <label class="form-label-bold-block">{{ __('Patient Animal') }} *</label>
+                            <select name="animal_id" required class="form-control-field">
                                 @foreach(\App\Models\Animal::all() as $an)
                                     <option value="{{ $an->id }}" {{ $med->animal_id == $an->id ? 'selected' : '' }}>
                                         #{{ $an->id }} {{ $an->name }} ({{ $an->species }})
@@ -62,70 +62,70 @@
                             </select>
                         </div>
 
-                        <div style="margin-bottom: 15px;">
-                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Medicine Name') }}</label>
-                            <input type="text" name="name" value="{{ old('name', $med->name) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                        <div class="form-group-spacing">
+                            <label class="form-label-bold-block">{{ __('Medicine Name') }}</label>
+                            <input type="text" name="name" value="{{ old('name', $med->name) }}" required class="form-control-field">
                         </div>
 
-                        <div style="margin-bottom: 15px;">
-                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Description') }}</label>
-                            <input type="text" name="description" value="{{ old('description', $med->description) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                        <div class="form-group-spacing">
+                            <label class="form-label-bold-block">{{ __('Description') }}</label>
+                            <input type="text" name="description" value="{{ old('description', $med->description) }}" required class="form-control-field">
                         </div>
 
-                        <div style="margin-bottom: 15px;">
-                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Method of Use') }}</label>
-                            <input type="text" name="method_of_use" value="{{ old('method_of_use', $med->method_of_use) }}" placeholder="e.g. Orally" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                        <div class="form-group-spacing">
+                            <label class="form-label-bold-block">{{ __('Method of Use') }}</label>
+                            <input type="text" name="method_of_use" value="{{ old('method_of_use', $med->method_of_use) }}" placeholder="e.g. Orally" required class="form-control-field">
                         </div>
 
-                        <div style="margin-bottom: 15px;">
-                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Frequency') }}</label>
-                            <input type="text" name="frequency" value="{{ old('frequency', $med->frequency) }}" placeholder="e.g. 1x day" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                        <div class="form-group-spacing">
+                            <label class="form-label-bold-block">{{ __('Frequency') }}</label>
+                            <input type="text" name="frequency" value="{{ old('frequency', $med->frequency) }}" placeholder="e.g. 1x day" required class="form-control-field">
                         </div>
 
-                        <div style="margin-bottom: 15px;">
-                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Date From') }}</label>
-                            <input type="date" name="date_from" value="{{ old('date_from', $med->date_from) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                        <div class="form-group-spacing">
+                            <label class="form-label-bold-block">{{ __('Date From') }}</label>
+                            <input type="date" name="date_from" value="{{ old('date_from', $med->date_from) }}" required class="form-control-field">
                         </div>
 
-                        <div style="margin-bottom: 25px;">
-                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Date Until') }}</label>
-                            <input type="date" name="date_until" value="{{ old('date_until', $med->date_until) }}" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px;">
+                        <div class="form-group-spacing-large">
+                            <label class="form-label-bold-block">{{ __('Date Until') }}</label>
+                            <input type="date" name="date_until" value="{{ old('date_until', $med->date_until) }}" required class="form-control-field">
                         </div>
 
-                        <div style="display: flex; gap: 10px;">
-                            <button type="submit" class="btn btn-green">💾 {{ __('Save Changes') }}</button>
-                            <a href="/admin/medicine" class="btn" style="background:#e2dcd8; color:#333; padding: 10px 16px; text-decoration:none; border-radius:4px; font-size: 0.9rem;">{{ __('Cancel') }}</a>
+                        <div class="action-flex-gap-sm">
+                            <button type="submit" class="btn btn-green">{{ __('Save Changes') }}</button>
+                            <a href="/admin/medicine" class="btn btn-cancel-secondary">{{ __('Cancel') }}</a>
                         </div>
                     </form>
 
                     @if(in_array(auth()->user()->role, ['admin', 'employee']))
-                        <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid #fee2e2;">
-                            <div style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 20px; border-radius: 8px;">
-                                <h4 style="color: #991b1b; margin: 0 0 8px 0; font-size: 1.05rem; font-weight: bold;">⚠️ {{ __('Danger Zone Management') }}</h4>
-                                <p style="color: #7f1d1d; font-size: 0.85rem; margin: 0 0 15px 0; line-height: 1.4;">{{ __("Do you wish to modify or completely clean up this medicine log item status?") }}</p>
+                        <div class="danger-zone-divider">
+                            <div class="danger-zone-card">
+                                <h4 class="danger-zone-title">⚠️ {{ __('Danger Zone Management') }}</h4>
+                                <p class="danger-zone-description">{{ __("Do you wish to modify or completely clean up this medicine log item status?") }}</p>
                                 
-                                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <div class="action-flex-wrap-gap-md">
                                     @if(!$med->trashed())
-                                        <form action="/admin/medicine/{{ $med->id }}" method="POST" onsubmit="return confirm('{{ __('Vai arhivēt šo ierakstu?') }}')" style="margin:0;">
+                                        <form action="/admin/medicine/{{ $med->id }}" method="POST" onsubmit="return confirm('{{ __('Vai arhivēt šo ierakstu?') }}')" class="inline-form">
                                             @csrf 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red" style="padding: 10px 16px; font-size: 0.85rem; font-weight: 500;">
+                                            <button type="submit" class="btn btn-red danger-zone-btn">
                                                 {{ __('Archive') }}
                                             </button>
                                         </form>
                                     @else
-                                        <form action="/admin/medicine/{{ $med->id }}/restore" method="POST" style="margin:0;">
+                                        <form action="/admin/medicine/{{ $med->id }}/restore" method="POST" class="inline-form">
                                             @csrf 
-                                            <button type="submit" class="btn btn-green" style="padding: 10px 16px; font-size: 0.85rem; font-weight: 500; background-color: #16a34a;">
+                                            <button type="submit" class="btn btn-green danger-zone-btn danger-zone-btn-success">
                                                 {{ __('Restore Medication Record') }}
                                             </button>
                                         </form>
 
                                         @if(auth()->user()->role === 'admin')
-                                            <form action="/admin/medicine/{{ $med->id }}/force-delete" method="POST" onsubmit="return confirm('UZMANĪBU! Šī darbība neatgriezeniski dzēsīs datus no sistēmas. Turpināt?')" style="margin:0;">
+                                            <form action="/admin/medicine/{{ $med->id }}/force-delete" method="POST" onsubmit="return confirm('UZMANĪBU! Šī darbība neatgriezeniski dzēsīs datus datus no sistēmas. Turpināt?')" class="inline-form">
                                                 @csrf 
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-red" style="padding: 10px 16px; font-size: 0.85rem; font-weight: 500; background-color: #dc2626;">
+                                                <button type="submit" class="btn btn-red danger-zone-btn danger-zone-btn-crimson">
                                                     {{ __('Force Delete Permanently') }}
                                                 </button>
                                             </form>

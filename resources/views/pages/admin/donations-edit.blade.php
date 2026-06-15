@@ -32,84 +32,83 @@
             </div>
             <div>
                 <a href="/" class="btn btn-blue logout-btn margin-bottom-sm">🏠 {{ __('Home') }}</a>
-                <a href="#" class="btn btn-red logout-btn" 
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="#" class="btn btn-red logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     {{ __('Log out') }}
                 </a>
-                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                <form id="logout-form" action="/logout" method="POST" class="hidden-element">
                     @csrf
                 </form>
             </div>
         </aside>
 
         <main class="admin-main">
-            <div style="max-width: 600px; margin: 0 auto;">
+            <div class="form-narrow-wrapper">
                 <h1>{{ __('Modify Donation Details') }}</h1>
                 <br>
 
-                <div class="block-card" style="padding: 25px;">
+                <div class="block-card block-card-padded">
                     @if(auth()->user()->role === 'admin')
                         <form action="/admin/donations/{{ $donation->id }}" method="POST">
                             @csrf
                             @method('PUT')
 
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Donor') }}</label>
-                                <input type="text" value="#U{{ $donation->user_id }} - {{ $donation->user->name ?? __('Unknown User') }}" style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background-color: #f5f0ed; color: #665c54; cursor: not-allowed;" readonly>
+                            <div class="form-group-spacing">
+                                <label class="form-label-bold-block">{{ __('Donor') }}</label>
+                                <input type="text" value="#U{{ $donation->user_id }} - {{ $donation->user->name ?? __('Unknown User') }}" class="form-control-field form-control-readonly" readonly>
                             </div>
 
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Donation Date') }}</label>
-                                <input type="text" value="{{ $donation->date }}" style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background-color: #f5f0ed; color: #665c54; cursor: not-allowed;" readonly>
+                            <div class="form-group-spacing">
+                                <label class="form-label-bold-block">{{ __('Donation Date') }}</label>
+                                <input type="text" value="{{ $donation->date }}" class="form-control-field form-control-readonly" readonly>
                             </div>
 
-                            <div style="margin-bottom: 15px;">
-                                <label style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Contribution Total Amount') }}</label>
-                                <input type="text" value="€{{ number_format($donation->amount, 2) }}" style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background-color: #f5f0ed; color: #665c54; font-weight: bold; cursor: not-allowed;" readonly>
+                            <div class="form-group-spacing">
+                                <label class="form-label-bold-block">{{ __('Contribution Total Amount') }}</label>
+                                <input type="text" value="€{{ number_format($donation->amount, 2) }}" class="form-control-field form-control-readonly form-control-bold" readonly>
                             </div>
 
-                            <hr style="border: 0; border-top: 1px solid #e5dfdb; margin: 20px 0;">
+                            <hr class="form-section-divider">
 
-                            <div style="margin-bottom: 15px;">
-                                <label for="method_of_payment" style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Method of Payment') }}</label>
-                                <select name="method_of_payment" id="method_of_payment" required style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; background: #fff;">
+                            <div class="form-group-spacing">
+                                <label for="method_of_payment" class="form-label-bold-block">{{ __('Method of Payment') }}</label>
+                                <select name="method_of_payment" id="method_of_payment" required class="form-control-field form-control-white-bg">
                                     <option value="Credit Card" {{ $donation->method_of_payment === 'Credit Card' ? 'selected' : '' }}>{{ __('Credit Card') }}</option>
                                     <option value="PayPal" {{ $donation->method_of_payment === 'PayPal' ? 'selected' : '' }}>PayPal</option>
                                     <option value="Bank Transfer" {{ $donation->method_of_payment === 'Bank Transfer' ? 'selected' : '' }}>{{ __('Bank Transfer') }}</option>
                                 </select>
                             </div>
 
-                            <div style="margin-bottom: 25px;">
-                                <label for="message" style="font-weight: bold; display: block; margin-bottom: 5px;">{{ __('Message / Internal Memo') }}</label>
-                                <textarea name="message" id="message" rows="3" placeholder="{{ __('Optional tracking annotations...') }}" style="width:100%; padding:8px; border: 1px solid #bbaaa2; border-radius:4px; font-family: inherit;">{{ $donation->message }}</textarea>
+                            <div class="form-group-spacing-large">
+                                <label for="message" class="form-label-bold-block">{{ __('Message / Internal Memo') }}</label>
+                                <textarea name="message" id="message" rows="3" placeholder="{{ __('Optional tracking annotations...') }}" class="form-control-field form-textarea-family">{{ $donation->message }}</textarea>
                             </div>
 
-                            <div style="display: flex; gap: 10px;">
-                                <button type="submit" class="btn btn-green">💾 {{ __('Save Changes') }}</button>
-                                <a href="/admin/donations" class="btn" style="background:#e2dcd8; color:#333; padding: 10px 16px; text-decoration:none; border-radius:4px; font-size: 0.9rem;">{{ __('Cancel') }}</a>
+                            <div class="action-flex-gap-sm">
+                                <button type="submit" class="btn btn-green">{{ __('Save Changes') }}</button>
+                                <a href="/admin/donations" class="btn btn-cancel-secondary">{{ __('Cancel') }}</a>
                             </div>
                         </form>
 
-                        <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid #fee2e2;">
-                            <div style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 20px; border-radius: 8px;">
-                                <h4 style="color: #991b1b; margin: 0 0 8px 0; font-size: 1.05rem; font-weight: bold;">⚠️ {{ __('Danger Zone Management') }}</h4>
-                                <p style="color: #7f1d1d; font-size: 0.85rem; margin: 0 0 15px 0; line-height: 1.4;">
+                        <div class="danger-zone-divider">
+                            <div class="danger-zone-card">
+                                <h4 class="danger-zone-title">⚠️ {{ __('Danger Zone Management') }}</h4>
+                                <p class="danger-zone-description">
                                     {{ __('Manage database status constraints for this system contribution receipt record entry.') }}
                                 </p>
                                 
-                                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <div class="action-flex-wrap-gap-md">
                                     @if($donation->trashed())
-                                        <form action="/admin/donations/{{ $donation->id }}/restore" method="POST" style="margin:0;">
+                                        <form action="/admin/donations/{{ $donation->id }}/restore" method="POST" class="inline-form">
                                             @csrf
-                                            <button type="submit" class="btn btn-blue" style="padding: 10px 16px; font-size: 0.85rem;">
+                                            <button type="submit" class="btn btn-blue danger-zone-btn">
                                                 {{ __('Restore Entry') }}
                                             </button>
                                         </form>
                                     @else
-                                        <form action="/admin/donations/{{ $donation->id }}" method="POST" onsubmit="return confirm('{{ __('Dzēst ziedojumu?') }}')" style="margin:0;">
+                                        <form action="/admin/donations/{{ $donation->id }}" method="POST" onsubmit="return confirm('{{ __('Dzēst ziedojumu?') }}')" class="inline-form">
                                             @csrf 
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-red" style="padding: 10px 16px; font-size: 0.85rem; font-weight: 500;">
+                                            <button type="submit" class="btn btn-red danger-zone-btn">
                                                 {{ __('Archive') }}
                                             </button>
                                         </form>
@@ -118,7 +117,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px;">
+                        <div class="alert alert-danger custom-alert-denied">
                             {{ __('Access Denied. Only system administrators can update or modify monetary ledger entries.') }}
                         </div>
                     @endif
