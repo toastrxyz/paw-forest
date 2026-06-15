@@ -45,8 +45,10 @@
                 {{ __('Your donation helps us provide food, safe shelter, and medical care for animals waiting for their forever homes.') }}
             </p>
 
+            <div id="async-alert-box" style="display: none; background-color: #d4edda; color: #155724; padding: 15px; border-radius: 6px; text-align: center; font-weight: bold; margin-bottom: 20px;"></div>
+
             @if(session('success'))
-                <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 6px; margin-bottom: 200px; text-align: center; font-weight: bold; margin-bottom: 20px;">
+                <div class="native-session-alert" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 6px; text-align: center; font-weight: bold; margin-bottom: 20px;">
                     {{ session('success') }}
                 </div>
             @endif
@@ -54,14 +56,14 @@
             <div class="donation-goal-box">
                 <h2 class="goal-title">{{ __("This Month's Goal: Medical Fund") }}</h2>
                 <p class="goal-amount">
-                    ${{ number_format($currentSum ?? 0, 0, '.', ',') }} {{ __('of') }} ${{ number_format($targetGoal ?? 5000, 0, '.', ',') }}
+                    $<span id="goal-summary-text">{{ number_format($currentSum ?? 0, 0, '.', ',') }}</span> {{ __('of') }} ${{ number_format($targetGoal ?? 5000, 0, '.', ',') }}
                 </p>
                 <div class="progress-bar-bg" style="background: #e2dcd8; border-radius: 10px; height: 20px; width: 100%; overflow: hidden; margin-top: 10px;">
-                    <div class="progress-bar-fill" style="background: #2b7a4b; height: 100%; width: {{ $progressPercentage ?? 0 }}%; transition: width 0.5s ease;"></div>
+                    <div id="progress-indicator" class="progress-bar-fill" style="background: #2b7a4b; height: 100%; width: {{ $progressPercentage ?? 0 }}%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);"></div>
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('donations.store') }}">
+            <form id="donation-async-form" method="POST" action="{{ route('donations.store') }}">
                 @csrf
                 
                 <div class="form-group">
@@ -124,6 +126,45 @@
     <footer>
         <p>&copy; 2026 Paw Forest</p>
     </footer>
+
+    <script>
+    document.getElementById('donation-async-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const dynamicAlert = document.getElementById('async-alert-box');
+        const nativeAlert = document.querySelector('.native-session-alert');
+        
+        if(nativeAlert) nativeAlert.style.display = 'none';
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network execution fault occurred.');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                dynamicAlert.innerText = data.message;
+                dynamicAlert.style.display = 'block';
+                document.getElementById('goal-summary-text').innerText = data.currentSum;
+                document.getElementById('progress-indicator').style.width = data.progressPercentage + '%';
+                document.getElementById('amount').value = '';
+                document.querySelector('textarea[name="message"]').value = '';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })
+        .catch(error => {
+            console.error('Async Pipeline Processing Error:', error);
+            alert('Could not update interface data stream asynchronously.');
+        });
+    });
+    </script>
 
 </body>
 </html>

@@ -33,12 +33,12 @@ class DonationController extends Controller
     public function store(Request $request)
     {
         if (!auth()->check()) {
-            abort(403, 'Unauthorized action.');
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $request->validate([
             'amount' => 'required|numeric|min:1',
-            'method_of_payment' => 'required|string|in:Card,PayPal,Bank Transfer',
+            'method_of_payment' => 'required|string|in:Card,Credit Card,PayPal,Bank Transfer',
             'message' => 'nullable|string|max:1000',
         ]);
 
@@ -49,9 +49,19 @@ class DonationController extends Controller
         $donation->date = now()->toDateString();
         $donation->user_id = auth()->id();
         $donation->save();
+        $currentSum = Donation::sum('amount');
+        $targetGoal = 5000;
+        $progressPercentage = $targetGoal > 0 ? min(($currentSum / $targetGoal) * 100, 100) : 0;
 
-        return redirect()->route('donations.create')
-            ->with('success', __('Thank you for your donation!'));
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => __('Thank you for your donation!'),
+                'currentSum' => number_format($currentSum, 2),
+                'progressPercentage' => $progressPercentage
+            ]);
+        }
+        return redirect()->route('donations.create')->with('success', __('Thank you for your donation!'));
     }
 
     public function show($id)
