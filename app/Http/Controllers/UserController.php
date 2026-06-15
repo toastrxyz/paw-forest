@@ -30,14 +30,31 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+        $request->validate([
+            'name'    => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:500'],
+            'email'   => ['required', 'string', 'email', 'max:255'],
+            'username'=> ['required', 'string', 'max:255'],
         ]);
+        $emailExists = \App\Models\User::where('email', $request->email)
+            ->where('id', '!=', $user->id)
+            ->exists();
+            
+        if ($emailExists) {
+            return redirect()->back()->withErrors(['email' => __('The email has already been taken.')])->withInput();
+        }
+        $usernameExists = \App\Models\User::where('username', $request->username)
+            ->where('id', '!=', $user->id)
+            ->exists();
 
-        $user->update($validated);
+        if ($usernameExists) {
+            return redirect()->back()->withErrors(['username' => __('The username has already been taken.')])->withInput();
+        }
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->save();
 
         return redirect()->back()->with('success', __('Profile updated successfully!'));
     }

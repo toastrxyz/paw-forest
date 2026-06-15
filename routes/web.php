@@ -31,14 +31,14 @@ Route::get('/lang/{locale}', function ($locale) {
 Route::middleware(['auth'])->group(function () {
     
     // Regular User Profile Management
-    Route::get('/profile', [UserController::class, 'show'])->name('profile');
+    Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
     Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/profile/delete', [UserController::class, 'destroy'])->name('profile.delete');
     Route::post('/visits', [VisitController::class, 'store'])->name('visits.store');
     Route::post('/adoptions', [AdoptionController::class, 'store'])->name('adoptions.store');
     
-    // --- Employee & Admin Shared Routes ---
+    // Employee & Admin Shared Routes
     Route::middleware(['employee'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         
@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/admin/applications/{id}', [AdoptionController::class, 'destroy']);
         Route::post('/admin/applications/{id}/restore', [AdoptionController::class, 'restore']);
 
-        // --- Shelter Visits Shared Actions ---
+        // Shelter Visits Shared Actions
         Route::patch('/admin/visits/{id}/approve', [VisitController::class, 'approve']);
         Route::patch('/admin/visits/{id}/reject', [VisitController::class, 'reject']);
         Route::delete('/admin/visits/{id}', [VisitController::class, 'destroy']); 
@@ -75,11 +75,11 @@ Route::middleware(['auth'])->group(function () {
         // Locations (Read view accessible to employee)
         Route::view('/admin/locations', 'pages.admin.admin-locations');
 
-        // Employees can read the users roster page safely
+        // Employees can read the users page
         Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users.index');
     });
 
-    // --- Admin-Only Exclusive Routes ---
+    // Admin-Only Exclusive Routes
     Route::middleware(['admin'])->group(function () {
         // Administrative Animal Actions
         Route::delete('/admin/animals/{id}/force-delete', [AnimalController::class, 'forceDelete'])->name('animals.forceDelete');
